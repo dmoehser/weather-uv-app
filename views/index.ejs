@@ -1,0 +1,308 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 mb-4">
+    <div class="container">
+        <h1 class="display-4 mb-3">
+            <i class="fas fa-sun text-warning me-3"></i>
+            Weather & UV Protection
+        </h1>
+        <p class="lead mb-4">Get accurate weather forecasts and UV protection recommendations for any location worldwide.</p>
+        
+        <!-- Search Form -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <form id="locationForm" class="search-form">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-lg" id="locationInput" 
+                               placeholder="Enter city name" 
+                               required>
+                        <button class="btn btn-primary btn-lg" type="submit">
+                            <i class="fas fa-search me-2"></i>Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Display -->
+<% if (error) { %>
+    <div class="container">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+<% } %>
+
+<!-- Weather and UV Data Display -->
+<% if (weatherData) { %>
+    <div class="container">
+        <!-- Location Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="text-center mb-3">
+                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                    <%= location %>
+                </h2>
+            </div>
+        </div>
+
+        <!-- Current Weather and UV -->
+        <div class="row mb-4">
+            <!-- Current Weather -->
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 weather-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-cloud-sun me-2"></i>
+                            Current Weather
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-6 text-center">
+                                <div class="weather-icon mb-3">
+                                    <img src="https://openweathermap.org/img/wn/<%= weatherData.current.icon %>@2x.png" 
+                                         alt="<%= weatherData.current.description %>" class="img-fluid">
+                                </div>
+                                <h3 class="temperature"><%= weatherData.current.temperature %>°C</h3>
+                                <p class="text-muted">Feels like <%= weatherData.current.feelsLike %>°C</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Description:</strong> <%= weatherData.current.description %></p>
+                                <p><strong>Humidity:</strong> <%= weatherData.current.humidity %>%</p>
+                                <p><strong>Wind:</strong> <%= weatherData.current.windSpeed %> km/h</p>
+                                <p><strong>Pressure:</strong> <%= weatherData.current.pressure %> hPa</p>
+                                <p><strong>Visibility:</strong> <%= weatherData.current.visibility %> km</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current UV -->
+            <% if (uvData) { %>
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 uv-card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">
+                            <i class="fas fa-sun me-2"></i>
+                            UV Index
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <% const uvValue = uvData ? uvData.current.uv : weatherData.current.uvIndex; %>
+                            <div class="col-6 text-center">
+                                <div class="uv-display mb-3">
+                                    <h2 class="uv-index"><%= uvValue %></h2>
+                                    <div class="uv-level-badge badge bg-<%= 
+                                        uvValue <= 2 ? 'success' : 
+                                        uvValue <= 5 ? 'warning' : 
+                                        uvValue <= 7 ? 'orange' : 
+                                        uvValue <= 10 ? 'danger' : 'purple' 
+                                    %>">
+                                        <%= 
+                                            uvValue <= 2 ? 'Low' : 
+                                            uvValue <= 5 ? 'Moderate' : 
+                                            uvValue <= 7 ? 'High' : 
+                                            uvValue <= 10 ? 'Very High' : 'Extreme' 
+                                        %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Max UV Today:</strong> <%= uvData ? uvData.current.uvMax : weatherData.current.uvIndex %></p>
+                                <p><strong>Ozone:</strong> <%= uvData ? uvData.current.ozone : 'N/A' %> DU</p>
+                                <p><strong>Safe Exposure:</strong></p>
+                                <small class="text-muted">
+                                    <% if (uvData && uvData.current.safeExposure.skinType2 !== 'Unknown') { %>
+                                        Fair skin: <%= uvData.current.safeExposure.skinType2 %> min<br>
+                                        Dark skin: <%= uvData.current.safeExposure.skinType5 %> min
+                                    <% } else { %>
+                                        <em>UV data from Open-Meteo</em>
+                                    <% } %>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } else if (uvError) { %>
+            <div class="col-lg-6 mb-4">
+                <div class="alert alert-info h-100 d-flex align-items-center justify-content-center" style="min-height: 100px;">
+                    <i class="fas fa-info-circle me-2"></i> <%= uvError %>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Recommendations -->
+        <% if (uvData) { %>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Protection Recommendations
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-umbrella-beach me-2"></i>Sunscreen</h6>
+                                <p><strong>SPF:</strong> <%= uvData ? uvData.recommendations.sunscreen.spf : 'SPF 30+' %></p>
+                                <p><strong>Application:</strong> <%= uvData ? uvData.recommendations.sunscreen.application : 'Apply if spending time outdoors' %></p>
+                                <p><strong>Reapplication:</strong> <%= uvData ? uvData.recommendations.sunscreen.reapplication : 'Every 2 hours' %></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-tshirt me-2"></i>Clothing</h6>
+                                <p><strong>Hat:</strong> <%= uvData ? uvData.recommendations.clothing.hat : 'Recommended' %></p>
+                                <p><strong>Sunglasses:</strong> <%= uvData ? uvData.recommendations.clothing.sunglasses : 'UV-protective sunglasses' %></p>
+                                <p><strong>Clothing:</strong> <%= uvData ? uvData.recommendations.clothing.clothing : 'Light, loose-fitting clothing' %></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h6><i class="fas fa-clock me-2"></i>Timing</h6>
+                                <p><strong>Best Time:</strong> <%= uvData ? uvData.recommendations.timing.bestTime : 'Early morning or late afternoon' %></p>
+                                <p><strong>Avoid:</strong> <%= uvData ? uvData.recommendations.timing.avoidTime : '10 AM - 4 PM' %></p>
+                                <p><strong>Advice:</strong> <%= uvData ? uvData.recommendations.timing.advice : 'Seek shade during peak hours' %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Weather Forecast -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            8-Day Weather Forecast
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <% weatherData.daily.forEach((day, index) => { %>
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="forecast-day text-center p-3 border rounded">
+                                        <h6><%= day.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) %></h6>
+                                        <img src="https://openweathermap.org/img/wn/<%= day.icon %>.png" 
+                                             alt="<%= day.description %>" class="img-fluid mb-2">
+                                        <p class="mb-1"><strong><%= day.temp.max %>°</strong> / <%= day.temp.min %>°</p>
+                                        <p class="text-muted small mb-1"><%= day.description %></p>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-tint me-1"></i><%= day.precipitation.toFixed(0) %>%
+                                        </p>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rain Prediction for Tomorrow -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-cloud-rain me-2"></i>
+                            Rain Prediction for Tomorrow
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <% 
+                            const tomorrow = weatherData.daily[1];
+                            let rainPrediction = { willRain: false, message: 'No rain expected tomorrow!' };
+                            if (tomorrow.precipitation > 50) {
+                                rainPrediction = { willRain: true, message: 'It will likely rain tomorrow!' };
+                            } else if (tomorrow.precipitation > 30) {
+                                rainPrediction = { willRain: true, message: "There's a chance of rain tomorrow." };
+                            }
+                        %>
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h4 class="<%= rainPrediction.willRain ? 'text-danger' : 'text-success' %>">
+                                    <i class="fas <%= rainPrediction.willRain ? 'fa-cloud-rain' : 'fa-sun' %> me-2"></i>
+                                    <%= rainPrediction.message %>
+                                </h4>
+                                <p class="mb-0">Probability: <%= tomorrow.precipitation.toFixed(0) %>%</p>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="rain-bar-container">
+                                    <div class="rain-bar-bg">
+                                        <div class="rain-bar-fill" style="width: <%= tomorrow.precipitation.toFixed(0) %>%;">
+                                            <span class="rain-bar-label"><%= tomorrow.precipitation.toFixed(0) %>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="rain-bar-caption">Rain Probability</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<!-- About Section -->
+<div id="about" class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        About This App
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>This application combines weather data from Open-Meteo and UV index data from OpenUV to provide comprehensive weather and sun protection information.</p>
+                    <p><strong>Features:</strong></p>
+                    <ul>
+                        <li>Current weather conditions and 8-day forecast</li>
+                        <li>Real-time UV index and protection recommendations</li>
+                        <li>Rain prediction for tomorrow</li>
+                        <li>Personalized sunscreen and clothing recommendations</li>
+                        <li>Safe exposure times for different skin types</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Helper Functions -->
+<script>
+    function getUVLevel(uvIndex) {
+        if (uvIndex <= 2) return 'Low';
+        if (uvIndex <= 5) return 'Moderate';
+        if (uvIndex <= 7) return 'High';
+        if (uvIndex <= 10) return 'Very High';
+        return 'Extreme';
+    }
+
+    function getUVLevelClass(uvIndex) {
+        if (uvIndex <= 2) return 'badge bg-success';
+        if (uvIndex <= 5) return 'badge bg-warning';
+        if (uvIndex <= 7) return 'badge bg-orange';
+        if (uvIndex <= 10) return 'badge bg-danger';
+        return 'badge bg-purple';
+    }
+</script>
+
+<%- include('partials/footer') %>

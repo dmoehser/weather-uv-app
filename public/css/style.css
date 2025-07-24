@@ -1,0 +1,379 @@
+/* Custom CSS for Weather & UV Protection App */
+
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-section h1 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section .lead {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Search Form */
+.search-form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.search-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.search-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.search-form .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.search-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.search-form .input-group {
+    position: relative;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-bottom: none;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Weather Card */
+.weather-card {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+}
+
+.weather-card .card-header {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.weather-card .temperature {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.weather-card .weather-icon img {
+    width: 80px;
+    height: 80px;
+}
+
+/* UV Card */
+.uv-card {
+    background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    color: white;
+}
+
+.uv-card .card-header {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.uv-card .uv-index {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2d3436;
+}
+
+.uv-level-badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* UV Level Colors */
+.badge.bg-orange {
+    background-color: #f39c12 !important;
+}
+
+.badge.bg-purple {
+    background-color: #9b59b6 !important;
+}
+
+/* Forecast Days */
+.forecast-day {
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
+}
+
+.forecast-day:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+.forecast-day h6 {
+    color: #2d3436;
+    font-weight: 600;
+}
+
+/* Progress Bar */
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Alerts */
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #2d3436 0%, #636e72 100%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #74b9ff !important;
+}
+
+/* Error Page */
+.error-page {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        margin: 10px;
+        padding: 20px;
+    }
+    
+    .search-form {
+        padding: 20px;
+    }
+    
+    .weather-card .temperature,
+    .uv-card .uv-index {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .forecast-day {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Smooth Transitions */
+* {
+    transition: all 0.3s ease;
+}
+
+/* Focus States */
+.form-control:focus,
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Verbesserter Such-Button mit Spinner */
+#locationForm .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 140px;
+    min-height: 48px;
+    position: relative;
+}
+
+#locationForm .btn .loading {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#locationForm .btn[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.search-form,
+.container,
+.hero-section {
+    overflow: visible !important;
+}
+
+.autocomplete-list {
+    z-index: 99999 !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    /* Testweise für Debugging: */
+    /* position: fixed !important;
+    left: 100px !important;
+    top: 100px !important;
+    background: red !important; */
+}
+
+.rain-bar-container {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.rain-bar-bg {
+    width: 100%;
+    height: 28px;
+    background: #e0e0e0;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rain-bar-fill {
+    height: 100%;
+    background: #e74c3c;
+    border-radius: 16px 0 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: width 0.5s;
+    position: relative;
+}
+
+.rain-bar-label {
+    color: #fff;
+    font-weight: bold;
+    padding-right: 16px;
+    font-size: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.rain-bar-caption {
+    text-align: right;
+    font-size: 0.95rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
